@@ -3,6 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 
 BROWSERS_LIST = ("chrome", "firefox")
+BASE_URL = 'http://selenium1py.pythonanywhere.com/'
 
 
 def pytest_addoption(parser):
@@ -18,6 +19,17 @@ def pytest_addoption(parser):
         default='en',
         help="Choose language"
     )
+    parser.addoption(
+        '--url', "-U",
+        action='store',
+        default=BASE_URL,
+        help='choose your host'
+    )
+
+
+@pytest.fixture()
+def url(request):
+    return request.config.getoption("--url")
 
 
 @pytest.fixture(scope="function")
