@@ -17,6 +17,14 @@ class ProductPage(BasePage):
         text = self.get_element(*ProductPageLocators.MESSAGE_PRODUCT_ADDED).text
         assert self.title == text
 
+    def check_not_message_product_added_to_cart(self):
+        assert self.is_not_element_present(*ProductPageLocators.MESSAGE_PRODUCT_ADDED), \
+            "Success message is presented, but should not be"
+
+    def check_message_product_added_to_cart_is_disappearing(self):
+        assert self.is_disappearing_element(*ProductPageLocators.MESSAGE_PRODUCT_ADDED), \
+            "Success message should disappear"
+
     def check_message_cart_total(self):
         text = self.get_element(*ProductPageLocators.MESSAGE_CART_TOTAL).text
         assert self.price == text
