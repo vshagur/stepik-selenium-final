@@ -4,12 +4,15 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
 from stepik_selenium_final.handlers import calc
+from stepik_selenium_final.locators import BasePageLocators
 
 
 class BasePage():
-    def __init__(self, browser, url):
+    def __init__(self, browser, url, opened=True):
         self.browser = browser
         self.url = url
+        if opened:
+            self.open()
 
     def open(self):
         self.browser.get(self.url)
@@ -55,3 +58,12 @@ class BasePage():
             alert.accept()
         except NoAlertPresentException:
             print("No second alert presented")
+
+    def go_to_login_page(self):
+        self.browser.find_element(*BasePageLocators.LOGIN_LINK).click()
+        from stepik_selenium_final.pages import LoginPage
+        return LoginPage(browser=self.browser, url=self.browser.current_url)
+
+    def check_login_link(self):
+        assert self.is_element_present(*BasePageLocators.LOGIN_LINK), \
+            "Login link is not presented"
