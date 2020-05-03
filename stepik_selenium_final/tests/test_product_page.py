@@ -10,7 +10,7 @@ ENDPOINTS = [
     "catalogue/coders-at-work_207/?promo=offer4",
     "catalogue/coders-at-work_207/?promo=offer5",
     "catalogue/coders-at-work_207/?promo=offer6",
-    "catalogue/coders-at-work_207/?promo=offer7",
+    pytest.param("catalogue/coders-at-work_207/?promo=offer7", marks=pytest.mark.xfail),
     "catalogue/coders-at-work_207/?promo=offer8",
     "catalogue/coders-at-work_207/?promo=offer9"]
 
