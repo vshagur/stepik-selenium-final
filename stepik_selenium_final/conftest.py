@@ -27,12 +27,12 @@ def pytest_addoption(parser):
     )
 
 
-@pytest.fixture()
+@pytest.fixture(scope='session')
 def url(request):
     return request.config.getoption("--url")
 
 
-@pytest.fixture(scope="function")
+@pytest.fixture()
 def browser(request):
     browser_name = request.config.getoption("browser_name")
     language = request.config.getoption("language")

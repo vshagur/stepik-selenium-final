@@ -19,6 +19,10 @@ class BasePage():
             return False
         return True
 
+    def get_element(self, by, locator):
+        assert self.browser.find_element(by, locator)
+        return self.browser.find_element(by, locator)
+
     def solve_quiz_and_get_code(self):
         alert = self.browser.switch_to.alert
         _, _, num, _ = alert.text.split(' ', 3)
