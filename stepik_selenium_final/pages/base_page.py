@@ -3,7 +3,7 @@ from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.support.ui import WebDriverWait
 
-from stepik_selenium_final.handlers import calc
+from stepik_selenium_final.common import calc
 from stepik_selenium_final.locators import BasePageLocators
 
 
@@ -67,3 +67,8 @@ class BasePage():
     def check_login_link(self):
         assert self.is_element_present(*BasePageLocators.LOGIN_LINK), \
             "Login link is not presented"
+
+    def go_to_cart_page(self):
+        self.browser.find_element(*BasePageLocators.GO_TO_CART_BUTTON).click()
+        from stepik_selenium_final.pages import CartPage
+        return CartPage(browser=self.browser, url=self.browser.current_url)
