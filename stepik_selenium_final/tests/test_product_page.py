@@ -1,8 +1,8 @@
 import sys
-from  uuid import uuid4
 
 import pytest
 
+from stepik_selenium_final.common import User
 from stepik_selenium_final.pages import ProductPage, MainPage
 
 PROMO_ENDPOINTS = [
@@ -78,11 +78,10 @@ def test_guest_cant_see_product_in_basket_opened_from_product_page(browser, url)
 class TestUserAddToBasketFromProductPage:
     @pytest.fixture(scope='class', autouse=True)
     def setup(self, browser, url):
-        password = str(uuid4())[24:]
-        email = f'{str(uuid4())[24:]}@example.com'
+        user = User()
         page = MainPage(browser, url)
         login_page = page.go_to_login_page()
-        login_page.register_new_user(email, password)
+        login_page.register_new_user(user.email, user.password)
         login_page.check_authorized_user()
 
     def test_user_cant_see_success_message(self, browser, url):
