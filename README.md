@@ -5,6 +5,21 @@
 # stepik-selenium-final
 The code for solving the final problem in the programming course is https://stepik.org/course/575/syllabus
 
+## Documentation
+
+#### Run tests
+
+Note. The project has an original structure. To run the tests correctly, you must specify the stepik_selenium_final directory in the command line parameters or first go inside the stepik_selenium_final directory and run the tests from it.
+
+    $ cd stepik_selenium_final
+    $ python3 -m pytest -v --tb=line --language=en -m need_review 
+
+or
+    
+    
+    $ python3 -m pytest -v --tb=line --language=en -m need_review  stepik_selenium_final
+
+
 ## Built With
 
 * [Pytest](https://docs.pytest.org/en/latest/) - The pytest framework makes it easy to write small tests, yet scales to support complex functional testing for applications and libraries.
