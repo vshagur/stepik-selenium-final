@@ -6,16 +6,10 @@ from stepik_selenium_final.common import User
 from stepik_selenium_final.pages import ProductPage, MainPage
 
 PROMO_ENDPOINTS = [
-    "catalogue/coders-at-work_207/?promo=offer0",
-    "catalogue/coders-at-work_207/?promo=offer1",
-    "catalogue/coders-at-work_207/?promo=offer2",
-    "catalogue/coders-at-work_207/?promo=offer3",
-    "catalogue/coders-at-work_207/?promo=offer4",
-    "catalogue/coders-at-work_207/?promo=offer5",
-    "catalogue/coders-at-work_207/?promo=offer6",
-    pytest.param("catalogue/coders-at-work_207/?promo=offer7", marks=pytest.mark.xfail),
-    "catalogue/coders-at-work_207/?promo=offer8",
-    "catalogue/coders-at-work_207/?promo=offer9"]
+    pytest.param(
+        f'catalogue/coders-at-work_207/?promo=offer{num}',
+        marks=pytest.mark.xfail(num == 7, reason='')) for num in range(10)
+]
 
 
 @pytest.mark.skipif('--browser_name=firefox' in sys.argv, reason='before fix bug')
