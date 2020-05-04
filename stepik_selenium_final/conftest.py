@@ -32,7 +32,7 @@ def url(request):
     return request.config.getoption("--url")
 
 
-@pytest.fixture()
+@pytest.fixture(scope='class')
 def browser(request):
     browser_name = request.config.getoption("browser_name")
     language = request.config.getoption("language")

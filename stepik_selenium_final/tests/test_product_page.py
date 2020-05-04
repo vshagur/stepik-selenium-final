@@ -1,6 +1,8 @@
+from  uuid import uuid4
+
 import pytest
 
-from stepik_selenium_final.pages import ProductPage
+from stepik_selenium_final.pages import ProductPage, MainPage
 
 ENDPOINTS = [
     "catalogue/coders-at-work_207/?promo=offer0",
@@ -15,6 +17,7 @@ ENDPOINTS = [
     "catalogue/coders-at-work_207/?promo=offer9"]
 
 
+@pytest.mark.need_review
 @pytest.mark.parametrize('endpoint', ENDPOINTS)
 def test_guest_can_add_product_to_basket(browser, url, endpoint):
     page = ProductPage(browser, url + endpoint)
@@ -24,6 +27,7 @@ def test_guest_can_add_product_to_basket(browser, url, endpoint):
     page.check_message_cart_total()
 
 
+@pytest.mark.xfail()
 def test_guest_cant_see_success_message_after_adding_product_to_basket(browser, url):
     endpoint = 'catalogue/coders-at-work_207/'
     page = ProductPage(browser, url + endpoint)
@@ -38,6 +42,7 @@ def test_guest_cant_see_success_message(browser, url):
     page.check_not_message_product_added_to_cart()
 
 
+@pytest.mark.xfail()
 def test_message_disappeared_after_adding_product_to_basket(browser, url):
     endpoint = 'catalogue/coders-at-work_207/'
     page = ProductPage(browser, url + endpoint)
@@ -52,6 +57,7 @@ def test_guest_should_see_login_link_on_product_page(browser, url):
     page.check_login_link()
 
 
+@pytest.mark.need_review
 def test_guest_can_go_to_login_page_from_product_page(browser, url):
     endpoint = 'en-gb/catalogue/the-city-and-the-stars_95/'
     page = ProductPage(browser, url + endpoint)
@@ -59,8 +65,34 @@ def test_guest_can_go_to_login_page_from_product_page(browser, url):
     login_page.check_login_page()
 
 
+@pytest.mark.need_review
 def test_guest_cant_see_product_in_basket_opened_from_product_page(browser, url):
     page = ProductPage(browser, url)
     cart_page = page.go_to_cart_page()
     cart_page.check_cart_is_empty()
     cart_page.check_message_cart_is_empty()
+
+
+class TestUserAddToBasketFromProductPage:
+    @pytest.fixture(scope='class')
+    def browser_user_login(self, browser, url):
+        password = str(uuid4())[24:]
+        email = f'{str(uuid4())[24:]}@example.com'
+        page = MainPage(browser, url)
+        login_page = page.go_to_login_page()
+        login_page.register_new_user(email, password)
+        login_page.check_authorized_user()
+        return browser
+
+    def test_user_cant_see_success_message(self, browser_user_login, url):
+        endpoint = 'catalogue/coders-at-work_207/'
+        page = ProductPage(browser_user_login, url + endpoint)
+        page.check_not_message_product_added_to_cart()
+
+    @pytest.mark.need_review
+    def test_user_can_add_product_to_basket(self, browser_user_login, url):
+        endpoint = "catalogue/coders-at-work_207/"
+        page = ProductPage(browser_user_login, url + endpoint)
+        page.add_product_to_cart()
+        page.check_message_product_added_to_cart()
+        page.check_message_cart_total()

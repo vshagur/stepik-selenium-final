@@ -72,3 +72,7 @@ class BasePage():
         self.browser.find_element(*BasePageLocators.GO_TO_CART_BUTTON).click()
         from stepik_selenium_final.pages import CartPage
         return CartPage(browser=self.browser, url=self.browser.current_url)
+
+    def check_authorized_user(self):
+        assert self.is_element_present(*BasePageLocators.USER_ICON), \
+            "User icon is not presented, probably unauthorised user"
